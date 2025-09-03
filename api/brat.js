@@ -1,5 +1,5 @@
 const express = require('express');
-const { createCanvas } = require('canvas');
+const { createCanvas } = require('@napi-rs/canvas');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -12,7 +12,8 @@ router.get('/', async (req, res) => {
     }
 
     try {
-        const size = 600; 
+        // ukuran canvas (standar seperti screenshot)
+        const size = 600;
         const canvas = createCanvas(size, size);
         const ctx = canvas.getContext('2d');
 
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
 
         // teks hitam standar
         ctx.fillStyle = '#000000';
-        ctx.font = 'bold 120px Arial'; // standar font
+        ctx.font = 'bold 120px Arial'; // font default
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
