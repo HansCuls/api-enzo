@@ -1,6 +1,10 @@
 const express = require('express');
-const { createCanvas } = require('canvas');
+const { createCanvas, registerFont } = require('canvas');
+const path = require('path');
 const router = express.Router();
+
+// daftar font custom (pakai path relatif)
+registerFont(path.join(__dirname, '../fonts/LiberationSans-Regular.ttf'), { family: 'LiberationSans' });
 
 router.get('/', async (req, res) => {
     const text = req.query.text;
@@ -12,8 +16,7 @@ router.get('/', async (req, res) => {
     }
 
     try {
-        // ukuran canvas (standar seperti screenshot)
-        const size = 600;
+        const size = 600; 
         const canvas = createCanvas(size, size);
         const ctx = canvas.getContext('2d');
 
@@ -21,16 +24,14 @@ router.get('/', async (req, res) => {
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, size, size);
 
-        // teks hitam standar
+        // teks hitam pakai font custom
         ctx.fillStyle = '#000000';
-        ctx.font = 'bold 120px Arial'; // font default
+        ctx.font = 'bold 120px LiberationSans'; // sesuai nama family waktu register
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
 
-        // tulis teks di tengah canvas
         ctx.fillText(text, size / 2, size / 2);
 
-        // kirim output png
         res.set('Content-Type', 'image/png');
         res.send(canvas.toBuffer('image/png'));
     } catch (err) {
