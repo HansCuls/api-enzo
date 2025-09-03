@@ -1,5 +1,5 @@
 const express = require('express');
-const { createCanvas } = require('@napi-rs/canvas');
+const { createCanvas } = require('canvas');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
