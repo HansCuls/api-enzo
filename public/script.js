@@ -413,15 +413,13 @@ const apiData = {
             description: "Mengubah text kamu menjadi gambar brat.",
             endpoint: "/api/brat",
             parameters: [
-                {name: "text", type: "text", placeholder: "Masukkan teks disini."},
-                {name: "background", type: "text", placeholder: "Warna background (contoh: #FFFFFF)"},
-                {name: "color", type: "text", placeholder: "Warna text (contoh: #000000)"}
+                {name: "text", type: "text", placeholder: "Masukkan teks disini."}
             ]
         },
         {
           method: "GET",
           title: "Brat Video",
-          status: "online",
+          status: "offline",
           description: "Mengubah text ke video brat",
           endpoint: "/api/bratvid",
           parameters: [
@@ -466,16 +464,10 @@ const apiData = {
 
 const changelogData = [
      {
-        date: "30 Agustus 2025 V2",
-        updates: [
-          "Terimakasih kepada developer dari OwnBlox API yang saya tidak tahu namanya ehe. Saya update untuk source code nya dan menambahkan satu fitur dan mem-fixs salah satu fitur. Terimakasih sekali lagi. Hormat saya: Enzoxavier"
-          ]
-     },
-     {
-       date: "26 Agustus 2025 V2",
+       date: "4 September 2025 v2",
        updates: [
-         "Menambahkan endpoint baru yaitu /api/bratvid yang berada di kategori Sticker, anda bisa custom background dan warna text. Default warna background hitam (#000000), Default warna text yakni putih (#FFFFFF)"
-         ]
+         "Update untuk menu /api/brat yang berada di kategoru Sticker. Yaitu eksperimen menggunakan canvas, jika bagus maka akan saya lanjutkan, jiks kurang maka akan saya update lagi"
+        ]
      }
 ]
 
