@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
         ctx.fillRect(0, 0, width, height);
 
         // cari ukuran font yang pas
-        let fontSize = 60; // mulai dari besar
+        let fontSize = 120; // mulai dari besar
         let lines = [];
         const margin = 10;
         const maxWidth = width - margin * 2;
