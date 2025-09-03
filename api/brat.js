@@ -3,7 +3,7 @@ const { createCanvas, registerFont } = require('canvas');
 const path = require('path');
 const router = express.Router();
 
-
+// Daftarin font custom
 registerFont(path.join(__dirname, '../fonts/LiberationSans-Regular.ttf'), { family: 'LiberationSans' });
 
 router.get('/', async (req, res) => {
@@ -59,14 +59,16 @@ router.get('/', async (req, res) => {
             fontSize -= 2; // kecilkan font
         }
 
-        // tulis teks
+        // tulis teks rata tengah
         ctx.fillStyle = '#000000';
-        ctx.textAlign = 'left';
+        ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
 
-        let y = margin;
+        const totalHeight = lines.length * lineHeight;
+        let y = (height - totalHeight) / 2; // biar pas di tengah vertikal
+
         for (const line of lines) {
-            ctx.fillText(line, margin, y);
+            ctx.fillText(line, width / 2, y);
             y += lineHeight;
         }
 
