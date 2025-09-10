@@ -1,5 +1,5 @@
 const express = require('express');
-const axios = require('axios');
+const cloudscraper = require('cloudscraper');
 const router = express.Router();
 
 async function saveweb2zip(url, options = {}) {
@@ -11,34 +11,38 @@ async function saveweb2zip(url, options = {}) {
         alternativeAlgorithm = false,
         mobileVersion = false
     } = options;
-    
-    let { data } = await axios.post('https://copier.saveweb2zip.com/api/copySite', {
-        url,
-        renameAssets,
-        saveStructure,
-        alternativeAlgorithm,
-        mobileVersion
-    }, {
+
+    // Kirim request ke API saveweb2zip pakai cloudscraper (tembus cloudflare)
+    let response = await cloudscraper.post('https://copier.saveweb2zip.com/api/copySite', {
+        json: {
+            url,
+            renameAssets,
+            saveStructure,
+            alternativeAlgorithm,
+            mobileVersion
+        },
         headers: {
             accept: '*/*',
             'content-type': 'application/json',
             origin: 'https://saveweb2zip.com',
-            referer: 'https://saveweb2zip.com/',
-            'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36'
+            referer: 'https://saveweb2zip.com/'
         }
     });
-    
+
+    const { md5 } = response;
+
+    // Loop sampai proses selesai
     while (true) {
-        let { data: process } = await axios.get(`https://copier.saveweb2zip.com/api/getStatus/${data.md5}`, {
+        let process = await cloudscraper.get(`https://copier.saveweb2zip.com/api/getStatus/${md5}`, {
+            json: true,
             headers: {
                 accept: '*/*',
                 'content-type': 'application/json',
                 origin: 'https://saveweb2zip.com',
-                referer: 'https://saveweb2zip.com/',
-                'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36'
+                referer: 'https://saveweb2zip.com/'
             }
         });
-        
+
         if (!process.isFinished) {
             await new Promise(resolve => setTimeout(resolve, 1000));
             continue;
@@ -64,7 +68,7 @@ router.get('/', async (req, res) => {
         const result = await saveweb2zip(url, { renameAssets: true });
 
         if (result.error?.code) {
-            return res.status(500).json({ 
+            return res.status(500).json({
                 status: false,
                 error: result.error.text || 'Gagal menyimpan website.'
             });
